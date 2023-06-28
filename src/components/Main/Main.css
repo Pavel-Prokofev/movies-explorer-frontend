@@ -1,0 +1,20 @@
+.main {
+  flex-grow: 1;
+}
+
+.main__designer-curvature-compensator {
+  background-color: #202020;
+  padding-top: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .main__designer-curvature-compensator {
+    padding-top: calc(1.95vw - 15px);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .main__designer-curvature-compensator {
+    padding-top: 10px;
+  }
+}

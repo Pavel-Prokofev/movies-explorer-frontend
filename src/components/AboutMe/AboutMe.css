@@ -1,0 +1,118 @@
+.about-me {
+  padding-top: calc(1.34vw - 4.29px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+}
+
+.about-me__photo {
+  width: 100%;
+  max-width: 292px;
+  max-height: 352px;
+  object-fit: cover;
+  margin-bottom: 40px;
+  border-radius: 10px;
+}
+
+.about-me__info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.about-me__subheading {
+  margin: 0;
+  padding-bottom: calc(22.86px - 0.89vw);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.about-me__bio {
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.about-me__text-content {
+  margin: 0;
+  padding-bottom: 40px;
+  font-weight: 400;
+}
+
+.about-me__link {
+  font-size: 14px;
+  line-height: 1.2;
+  text-decoration: none;
+  color: #fff;
+  opacity: 1;
+  transition: opacity 0.3s linear;
+}
+
+.about-me__link:hover {
+  opacity: 0.7;
+}
+
+@media screen and (min-width: 768px) {
+  .about-me {
+    padding-top: 6px;
+    flex-direction: row-reverse;
+    align-items: stretch;
+    justify-content: space-between;
+  }
+
+  .about-me__photo {
+    width: calc(2.93vw + 232.5px);
+    height: calc(3.91vw + 277px);
+    margin-bottom: 0;
+  }
+
+  .about-me__info-box {
+    font-size: 12px;
+    line-height: 1.5;
+    width: calc(46.09vw + 10px);
+  }
+
+  .about-me__subheading {
+    padding-bottom: calc(13px + 0.39vw); 
+    font-size: 40px;
+    line-height: 1;
+  }
+
+  .about-me__bio {
+    padding-bottom: calc(11px + 1.17vw);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .about-me__photo {
+    max-width: 270px;
+    max-height: 327px;
+  }
+
+  .about-me__info-box {
+    width: 600px;
+  }
+
+  .about-me__subheading {
+    padding-bottom: 18px;
+    font-size: 50px;
+    line-height: 1.16;
+  }
+
+  .about-me__bio {
+    padding-bottom: 26px;
+    font-size: 18px;
+    line-height: 1.11;
+  }
+
+  .about-me__text-content {
+    font-size: 14px;
+    line-height: 1.57;
+  }
+}

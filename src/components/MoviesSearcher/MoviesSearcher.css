@@ -1,0 +1,140 @@
+.movies-searcher {
+  padding: calc(86.86px - 0.89vw) 0 calc(42.86px + 2.23vw);
+}
+
+.movies-searcher__form {
+  padding-bottom: calc(4vw - 3.8px);
+  margin-left: calc(16.8px - 4vw);
+  margin-right: calc(16.8px - 4vw);
+  border-bottom: 1px #424242 solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 46px;
+}
+
+.movies-searcher__input {
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  color: #fff;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.movies-searcher__submit-button {
+  border: none;
+  padding: 34px 34px 0 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: #4285F4 url('../../images/search_button_icon.svg') no-repeat center / cover;
+  background-size: 13px 13px;
+  transition: opacity 0.5s linear;
+}
+
+.movies-searcher__submit-button:hover {
+  opacity: 0.8;
+}
+
+.movies-searcher__toggle {
+  padding-top: 40px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  flex-direction: row-reverse;
+  gap: 13px;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.64;
+}
+
+.movies-searcher__toggle-checkbox {
+  position: absolute;
+  visibility: hidden;
+  width: 1px;
+  height: 1px;
+}
+
+.movies-searcher__toggle-switch {
+  display: inline-block;
+  background: #343434;
+  border-radius: 10px;
+  width: 36px;
+  height: 20px;
+  position: relative;
+  vertical-align: middle;
+  transition: 0.5s;
+}
+
+.movies-searcher__toggle-switch:before {
+  content: "";
+  display: block;
+  background: #A0A0A0;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: 0.5s;
+}
+
+.movies-searcher__toggle:hover .movies-searcher__toggle-switch:before {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.movies-searcher__toggle-checkbox:checked+.movies-searcher__toggle-switch {
+  background: #2BE080;
+}
+
+.movies-searcher__toggle-checkbox:checked+.movies-searcher__toggle-switch:before {
+  background: #fff;
+  left: 18px;
+}
+
+@media screen and (min-width: 420px) {
+  .movies-searcher__form {
+    padding-bottom: 13px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .movies-searcher__input {
+    font-size: 28px;
+  }
+
+  .movies-searcher__toggle {
+    padding-top: 29px;
+    justify-content: right;
+    gap: 16px;
+    font-size: 13px;
+    line-height: 1.38;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .movies-searcher {
+    padding-top: calc(95px - 1.95vw);
+    padding-bottom: calc(79.5px - 2.54vw);
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .movies-searcher__toggle {
+    padding-top: 32px;
+    justify-content: left;
+    flex-direction: row;
+    gap: 14px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .movies-searcher {
+    padding-top: 70px;
+    padding-bottom: 47px;
+  }
+}

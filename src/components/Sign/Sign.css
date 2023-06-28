@@ -1,0 +1,51 @@
+.signup,
+.signin  {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.signup__form-basic-label-text-format,
+.signin__form-basic-label-text-format,
+.signup__form-basic-input-text-format,
+.signin__form-basic-input-text-format {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  text-align: left;
+}
+
+.signup__form-label,
+.signin__form-label {
+  display: flex;
+  flex-direction: column;
+  color: #8B8B8B;
+}
+
+.signup__form-input,
+.signin__form-input {
+  margin-top: 10px;
+  padding: 15px;
+  height: 46px;
+  box-sizing: border-box;
+  background-color: #2F2F2F;
+  ;
+  font-size: 13px;
+  line-height: 1.23;
+  border: none;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.signup__form-input:invalid,
+.signin__form-input:invalid {
+  color: #ee3465;
+}
+
+.signup__form-input-error,
+.signin__form-input-error {
+  margin-top: 8px;
+  display: block;
+  color: #ee3465;
+  height: 12px;
+}
