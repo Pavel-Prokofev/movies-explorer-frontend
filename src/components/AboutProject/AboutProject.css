@@ -1,0 +1,124 @@
+.about-project {
+  font-weight: 400;
+  padding-top: calc(2.23vw - 7.14px);
+}
+
+.about-project__text-box {
+  text-align: left;
+}
+
+.about-project__subheading {
+  margin: 0;
+  padding-bottom: calc(1.34vw + 11.7px);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.about-project__text-content {
+  margin: 0;
+  padding-bottom: calc(8.26vw + 29.57px);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.about-project__graph {
+  padding-top: calc(6.86px - 0.89vw);
+  font-size: 11px;
+  line-height: 1.2;
+  display: grid;
+  grid-template-columns: calc(9.57% + 76.04px) auto;
+  grid-template-rows: repeat(2, auto);
+  row-gap: 10px;
+}
+
+.about-project__centering {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-project__size-back-end {
+  height: 35px;
+  background-color: #3DDC84;
+  color: #000;
+}
+
+.about-project__size-front-end {
+  background-color: #303030;
+}
+
+.about-project__label {
+  color: #A0A0A0;
+}
+
+@media screen and (min-width: 768px) {
+  .about-project {
+    padding-top: 10px;
+  }
+
+  .about-project__text-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    column-gap: calc(1.95vw + 15px);
+    grid-template-areas:
+      "hed1 hed2"
+      "text1 text2"
+  }
+
+  .about-project__hed1 {
+    grid-area: hed1;
+  }
+
+  .about-project__text1 {
+    grid-area: text1;
+  }
+
+  .about-project__hed2 {
+    grid-area: hed2;
+  }
+
+  .about-project__text2 {
+    grid-area: text2;
+  }
+
+  .about-project__subheading {
+    font-size: 20px;
+    padding-bottom: calc(0.78vw + 16px);
+  }
+
+  .about-project__text-content {
+    padding-bottom: calc(3.32vw + 67.5px);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .about-project__graph {
+    padding-top: 0;
+    font-size: 14px;
+    grid-template-columns: calc(18.64% + 15.46px) auto;
+    row-gap: 14px;
+  }
+
+  .about-project__size-back-end {
+    height: 36px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .about-project__text-box {
+    column-gap: 40px;
+  }
+
+  .about-project__subheading {
+    padding-bottom: 26px;
+  }
+
+  .about-project__text-content {
+    padding-bottom: 110px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}

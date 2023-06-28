@@ -1,0 +1,18 @@
+.movies {
+  padding: 0px calc(4.46vw - 4.29px);
+  flex-grow: 1;
+}
+
+@media screen and (min-width: 768px) {
+  .movies {
+    padding-left: calc(7.71vw - 29.2px);
+    padding-right: calc(7.71vw - 29.2px);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .movies {
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+}
