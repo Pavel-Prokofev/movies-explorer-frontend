@@ -8,7 +8,7 @@ function FormsBox(props) {
     <section className="forms-box" aria-label="Форма">
       <div className={`forms-box__wrap forms-box__wrap_${props.display}`}>
         {(props.display === 'signup' || props.display === 'signin') &&
-          <div className="forms-box__logo-box">
+          <div className="forms-box__logo-box" onClick={props.handleGetUserInfoErrorText && props.handleGetUserInfoErrorText}>
             <Logo />
           </div>
         }
@@ -16,7 +16,7 @@ function FormsBox(props) {
         <form
           name={props.display}
           className="forms-box__telescopic-segment-wrap"
-          noValidate onSubmit={props.hendleSubmit}
+          noValidate onSubmit={props.handleSubmit}
         >
           <div className="forms-box__telescopic-segment">
             {props.children}
@@ -26,11 +26,12 @@ function FormsBox(props) {
                 ${(props.editingDisabled & props.display === 'profile') ? 'forms-box__hide-element' : 'forms-box__buttons-wrap'}`}
           >
             <span className="forms-box__submit-button-error" id="form-submit-button-error">
-              Поле ошибок при сабмите.
+              {props.submitButtonErrorText}
             </span>
             <button type="submit"
+              disabled={!props.formIsValid ? 'disabled' : null}
               className="forms-box__basic-button-and-link-format forms-box__button-opacity forms-box__form-submit-button"
-              onClick={props.hendleSubmit}
+              onClick={props.handleSubmit}
             >
               {props.submitButtonTag}
             </button>
@@ -43,7 +44,7 @@ function FormsBox(props) {
         >
           <button type="button"
             className={`forms-box__basic-button-and-link-format forms-box__basic-button-and-link-format_${props.display} forms-box__link-opacity forms-box__button-editing`}
-            onClick={props.hendleEditing}
+            onClick={props.handleEditing}
           >
             {props.buttonEditingTag}
           </button>

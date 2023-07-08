@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   border: none;
+  width: 100%;
 }
 
 
@@ -9,7 +10,7 @@
 .profile__form-basic-input-text-format {
   font-weight: 400;
   font-size: 11px;
-  line-height: 1.18;
+  line-height: 12px;
 }
 
 .profile__form-label {
@@ -44,8 +45,10 @@
 .profile__form-input-error {
   display: block;
   color: #ee3465;
-  height: 16px;
+  padding-top: 4px;
+  height: 12px;
   border-bottom: 1px solid #424242;
+  overflow: hidden;
 }
 
 .profile__form-input-error:last-of-type {

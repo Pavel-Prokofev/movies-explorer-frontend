@@ -1,56 +1,46 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import './Profile.css';
 
 import FormsBox from '../FormsBox/FormsBox.js';
 import FormInput from '../FormInput/FormInput.js';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
 
 function Profile(props) {
 
+  const currentUser = React.useContext(CurrentUserContext);
+
   const [editingDisabled, setEditingDisabled] = React.useState(true);
-  const [name, setName] = React.useState('Павел');
-  const [email, setEmail] = React.useState('pochta@yandex.ru');
 
-  const navigate = useNavigate();
+  const location = useLocation();
 
-  const hendleEditing = () => {
+  React.useEffect(() => {
+    if (location.pathname === '/profile') {
+      props.name.handleResetValue(currentUser.name);
+      props.email.handleResetValue(currentUser.email);
+      props.handleSubmitButtonErrorText('Введите новые данные хотябы в одно поле.')
+    }
+  }, [location]);
+
+  const handleEditing = () => {
     setEditingDisabled(false);
-    setName('');
-    setEmail('');
-  }
-
-  const hendleSubmit = (evt) => {
-    evt.preventDefault();
-    setEditingDisabled(true);
-    navigate(-1, { replace: true });
-  };
-
-  const handleChangeName = (evt) => {
-    setName(evt.target.value);
-  };
-
-  const handleChangeEmail = (evt) => {
-    setEmail(evt.target.value);
-  };
-
-  const handleLoggedOut = () => {
-    props.handleLoggedOut();
-    navigate('/', { replace: true });
   }
 
   return (
     <>
       <FormsBox
         display={props.display}
-        heading='Привет, Павел!'
-        submitButtonTag='Сохранить'
-        buttonEditingTag='Редактировать'
-        buttonLoggedOutTag='Выйти из аккаунта'
-        hendleEditing={hendleEditing}
+        heading={props.heading}
+        submitButtonTag={props.submitButtonTag}
+        buttonEditingTag={props.buttonEditingTag}
+        buttonLoggedOutTag={props.buttonLoggedOutTag}
+        handleLoggedOut={props.handleLoggedOut}
+        handleEditing={handleEditing}
         editingDisabled={editingDisabled}
-        handleLoggedOut={handleLoggedOut}
-        hendleSubmit={hendleSubmit}>
+        formIsValid={props.formIsValid}
+        submitButtonErrorText={props.submitButtonErrorText}
+        handleSubmit={props.handleSubmit}>
         <fieldset className="profile" disabled={editingDisabled ? 'disabled' : null} >
           <FormInput
             display={props.display}
@@ -58,9 +48,7 @@ function Profile(props) {
             name='username'
             type='text'
             placeholder='Введите имя'
-            required={true}
-            value={name}
-            handleChangeValue={handleChangeName}
+            input={props.name}
           />
           <FormInput
             display={props.display}
@@ -68,9 +56,7 @@ function Profile(props) {
             name='email'
             type='email'
             placeholder='Введите E-mail'
-            required={true}
-            value={email}
-            handleChangeValue={handleChangeEmail}
+            input={props.email}
           />
         </fieldset>
       </FormsBox>

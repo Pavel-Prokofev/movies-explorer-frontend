@@ -24,7 +24,7 @@ function Movies(props) {
   return (
     <>
       <main className="movies">
-        <MoviesSearcher />
+        <MoviesSearcher onSearchSubmit={props.onSearchSubmit} />
         <MoviesBox display={props.display}>
           {listOfMovies}
         </MoviesBox>
