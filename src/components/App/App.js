@@ -34,12 +34,20 @@ function App() {
   const email = useInput('', { isEmpti: true, email: true });
   const password = useInput('', { isEmpti: true, minLength: 7 });
 
-
+  const [checkedValue, setCheckedValue] = React.useState(false);
+  const searchValue = useInput('', { isEmpti: true, alterError: true });
+  const [actualSearch, setActualSearch] = React.useState({
+    lastCheckedValue: false,
+    lastSearchValue: ''
+  });
 
   const [allMoviesArr, setAllMoviesArr] = React.useState([]);
-  const [preloaderOn, setPreloaderOn] = React.useState(false);
-  const [errorText, setErrorText] = React.useState('');
+  const [allShortMoviesArr, setAllShortMoviesArr] = React.useState([]);
+  const [likedMoviesArr, setLikedMoviesArr] = React.useState([]);
 
+  const [loadingErrorText, setLoadingErrorText] = React.useState('');
+
+  const [preloaderOn, setPreloaderOn] = React.useState(true);
 
   const handleSubmitButtonErrorText = (value) => {
     const resetValue = value ? value : '';
@@ -59,9 +67,13 @@ function App() {
 
   const handleLoggedOut = () => {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('lastSearch');
     setCurrentUser({});
     navigate('/', { replace: true });
     setLoggedIn(false);
+    setAllMoviesArr([]);
+    setAllShortMoviesArr([]);
+    setLikedMoviesArr([]);
   };
 
   React.useEffect(() => {
@@ -73,14 +85,33 @@ function App() {
       mainApi.getUserInfo()
         .then((res) => {
           if (res) {
+            const lastSearch = JSON.parse(localStorage.getItem('lastSearch'));
+            if (!lastSearch || typeof lastSearch.lastCheckedValue !== 'object') {
+              localStorage.setItem('lastSearch', JSON.stringify({ lastCheckedValue: false, lastSearchValue: '', lastLikedCheckedValue: false, lastLikedSearchValue: '' }));
+            } else if (typeof lastSearch.lastCheckedValue !== 'boolean') {
+              lastSearch.lastCheckedValue = false;
+            } else if (typeof lastSearch.lastSearchValue !== 'string') {
+              lastSearch.lastSearchValue = '';
+            } else if (typeof lastSearch.lastLikedCheckedValue !== 'boolean') {
+              lastSearch.lastLikedCheckedValue = false;
+            } else if (typeof lastSearch.lastLikedSearchValue !== 'string') {
+              lastSearch.lastLikedSearchValue = '';
+            };
+            localStorage.setItem('lastSearch', JSON.stringify(lastSearch));
+            if (lastSearch.lastSearchValue) {
+              handleGetAllMoviesArr();
+            };
+            setActualSearch(JSON.parse(localStorage.getItem('lastSearch')));
             handleLoggedIn(res, lastLocation);
           }
         })
         .catch((err) => {
           if (err === 401) {
             setGetUserInfoErrorText('При авторизации произошла ошибка. Переданный токен некорректен, пожалуйста авторизируйтесь.');
+            handleLoggedOut();
           } else if (err === 404) {
             setGetUserInfoErrorText('Пользователь по переданному токену не обнаружен, пожалуйста авторизируйтесь.');
+            handleLoggedOut();
           } else if (err === 500) {
             setGetUserInfoErrorText('На сервере произошла ошибка.');
           } else {
@@ -91,6 +122,8 @@ function App() {
         .finally(() => {
           setPreloaderOn(false);
         });
+    } else {
+      setPreloaderOn(false);
     }
   }, [])
 
@@ -102,6 +135,7 @@ function App() {
         .then((res) => {
           if (res.token && res.user) {
             localStorage.setItem('jwt', res.token);
+            localStorage.setItem('lastSearch', JSON.stringify({ lastCheckedValue: false, lastSearchValue: '', lastLikedCheckedValue: false, lastLikedSearchValue: '' }));
             handleLoggedIn(res.user, '/movies');
           } else {
             setSubmitButtonErrorText('При регистрации на сервере произошла ошибка.');
@@ -133,6 +167,7 @@ function App() {
         .then((res) => {
           if (res.token && res.user) {
             localStorage.setItem('jwt', res.token);
+            localStorage.setItem('lastSearch', JSON.stringify({ lastCheckedValue: false, lastSearchValue: '', lastLikedCheckedValue: false, lastLikedSearchValue: '' }));
             handleLoggedIn(res.user, '/movies');
           } else {
             setSubmitButtonErrorText('При авторизации на сервере произошла ошибка.');
@@ -227,55 +262,101 @@ function App() {
     };
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
+  React.useEffect(() => {
+    if (loggedIn) {
+      setLoadingErrorText('')
+      setPreloaderOn(true);
+      mainApi.getAllLikedMovies()
+        .then((res) => {
+          setLikedMoviesArr(res);
+        })
+        .catch((err) => {
+          setLoadingErrorText(`Во время запроса избранных фильмов произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз: ${err}.`);
+          setLikedMoviesArr([]);
+        })
+        .finally(() => {
+          setPreloaderOn(false);
+        });
+    };
+  }, [loggedIn]);
 
   const handleGetAllMoviesArr = () => {
     if (allMoviesArr.length === 0) {
-      setErrorText('')
+      setPreloaderOn(true);
+      setLoadingErrorText('')
       moviesApi.getAllMovies()
         .then((res) => {
-          setAllMoviesArr(res);
+          if (res) {
+            const allMoviesArr = res.map((getMovie) => {
+              const movie = {
+                country: getMovie.country,
+                director: getMovie.director,
+                duration: getMovie.duration,
+                year: getMovie.year,
+                description: getMovie.description,
+                image: `https://api.nomoreparties.co${getMovie.image.url}`,
+                trailerLink: getMovie.trailerLink,
+                thumbnail: `https://api.nomoreparties.co${getMovie.image.formats.thumbnail.url}`,
+                movieId: getMovie.id,
+                nameRU: getMovie.nameRU,
+                nameEN: getMovie.nameEN
+              };
+              return movie;
+            });
+            const allShortMoviesArr = allMoviesArr.filter((movie) => movie.duration <= 40);
+            setAllShortMoviesArr(allShortMoviesArr);
+            setAllMoviesArr(allMoviesArr);
+            setActualSearch(JSON.parse(localStorage.getItem('lastSearch')));
+          } else {
+            return Promise.reject(res.status);
+          }
         })
         .catch((err) => {
-          setErrorText(`Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз: ${err}.`);
+          setLoadingErrorText(`Во время запроса фильмов произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз: ${err}.`);
           setAllMoviesArr([]);
+          setAllShortMoviesArr([]);
+        })
+        .finally(() => {
+          setPreloaderOn(false);
         });
     }
   }
 
-  React.useEffect(() => {
-    if (allMoviesArr.length !== 0) {
-      console.log(allMoviesArr);
-    } else if (errorText !== '') {
-      console.log(errorText);
-    };
-  }, [errorText, allMoviesArr]);
+  const handleLikeMovie = (movie) => {
+    if (movie) {
+      mainApi.postNewMovie(movie)
+        .then((newLikedMovie) => {
+          setLikedMoviesArr([...likedMoviesArr, newLikedMovie]);
+        })
+        .catch((err) => {
+          console.log(`При лайке карточки что то пошло не так. Подождите немного и попробуйте ещё раз: ${err}.`);
+        })
+        .finally(() => {
+          setPreloaderOn(false);
+        });
+    } else {
+      console.log('При лайке карточки что то пошло не так.');
+      setPreloaderOn(false);
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const handleDislikeMovie = (dellMovieId) => {
+    if (dellMovieId) {
+      mainApi.delMovie(dellMovieId)
+        .then(() => {
+          setLikedMoviesArr(likedMoviesArr.filter((movie) => movie._id !== dellMovieId));
+        })
+        .catch((err) => {
+          console.log(`При дислайке карточки что то пошло не так. Подождите немного и попробуйте ещё раз: ${err}.`);
+        })
+        .finally(() => {
+          setPreloaderOn(false);
+        });
+    } else {
+      console.log('При дислайке карточки что то пошло не так.');
+      setPreloaderOn(false);
+    }
+  }
 
   const [navigationPopupIsOpen, setNavigationPopupIsOpen] = React.useState(false);
 
@@ -302,7 +383,6 @@ function App() {
       {(location.pathname === '/' || location.pathname === '/movies' ||
         location.pathname === '/saved-movies' || location.pathname === '/profile') &&
         (<Header
-          display={location.pathname}
           loggedIn={loggedIn}
           handleCloseEvent={handleCloseEvent}
           openNavigationPopup={openNavigationPopup}
@@ -317,7 +397,19 @@ function App() {
         <Route path='/movies' element={<ProtectedRoute
           element={<Movies
             display='movies'
-            onSearchSubmit={handleGetAllMoviesArr}
+            handleGetAllMoviesArr={handleGetAllMoviesArr}
+            checkedValue={checkedValue}
+            searchValue={searchValue}
+            setCheckedValue={setCheckedValue}
+            actualSearch={actualSearch}
+            setActualSearch={setActualSearch}
+            allMoviesArr={allMoviesArr}
+            allShortMoviesArr={allShortMoviesArr}
+            likedMoviesArr={likedMoviesArr}
+            loadingErrorText={loadingErrorText}
+            setPreloaderOn={setPreloaderOn}
+            handleLikeMovie={handleLikeMovie}
+            handleDislikeMovie={handleDislikeMovie}
           />}
           loggedIn={loggedIn}
           elsePath="/signin"
@@ -325,6 +417,17 @@ function App() {
         <Route path='/saved-movies' element={<ProtectedRoute
           element={<Movies
             display='saved-movies'
+            handleGetAllMoviesArr={handleGetAllMoviesArr}
+            checkedValue={checkedValue}
+            searchValue={searchValue}
+            setCheckedValue={setCheckedValue}
+            actualSearch={actualSearch}
+            setActualSearch={setActualSearch}
+            allMoviesArr={allMoviesArr}
+            likedMoviesArr={likedMoviesArr}
+            loadingErrorText={loadingErrorText}
+            setPreloaderOn={setPreloaderOn}
+            handleDislikeMovie={handleDislikeMovie}
           />}
           loggedIn={loggedIn}
           elsePath="/signin"

@@ -25,7 +25,7 @@ function FormsBox(props) {
             className={`
                 ${(props.editingDisabled & props.display === 'profile') ? 'forms-box__hide-element' : 'forms-box__buttons-wrap'}`}
           >
-            <span className="forms-box__submit-button-error" id="form-submit-button-error">
+            <span className={`forms-box__submit-button-error ${props.submitButtonErrorText.toLowerCase().includes('поздравляем') ? 'forms-box__submit-button-error_congratulation' : ''}`} id="form-submit-button-error">
               {props.submitButtonErrorText}
             </span>
             <button type="submit"

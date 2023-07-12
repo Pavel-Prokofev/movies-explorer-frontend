@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './Techs.css';
 
 import { techsArrForTechs } from '../../utils/constants.js';

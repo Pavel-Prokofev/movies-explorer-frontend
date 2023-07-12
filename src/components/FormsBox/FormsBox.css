@@ -83,6 +83,11 @@
   margin-bottom: 20px;
 }
 
+.forms-box__submit-button-error_congratulation {
+  color: #3DDC84;
+  font-weight: 500;
+}
+
 .forms-box__form-submit-button {
   font-weight: 500;
   align-self: auto;

@@ -1,6 +1,6 @@
 
 const configApi = {
-  url: 'http://localhost:3003',
+  url: 'https://api.moviesearcher.kirga.nomoredomains.rocks',
 };
 
 class MainApi {
@@ -40,77 +40,38 @@ class MainApi {
       .then((res) => this._checkResponse(res))
   };
 
-  // patchUserAvatar({ avatar },) {
-  //   return fetch(`${this._url}/users/me/avatar`, {
-  //     method: 'PATCH',
-  //     headers: {
-  //       'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       avatar: avatar
-  //     })
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
+  getAllLikedMovies() {
+    return fetch(`${this._url}/movies`, {
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => this._checkResponse(res))
+  };
 
-  // getAllCards() {
-  //   return fetch(`${this._url}/cards`, {
-  //     headers: {
-  //       'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
+  postNewMovie(movie) {
+    return fetch(`${this._url}/movies`, {
+      method: 'POST',
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(movie)
+    })
+      .then((res) => this._checkResponse(res))
+  };
 
-  // postNewCard({ name, link }) {
-  //   return fetch(`${this._url}/cards`, {
-  //     method: 'POST',
-  //     headers: {
-  //       'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       name: name,
-  //       link: link
-  //     })
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
-
-  // putCardLike(cardId) {
-  //   return fetch(`${this._url}/cards/${cardId}/likes`, {
-  //     method: 'PUT',
-  //    headers: {
-  //     'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //     'Content-Type': 'application/json'
-  //   }
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
-
-  // delCardLike(cardId) {
-  //   return fetch(`${this._url}/cards/${cardId}/likes`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
-
-  // delCard(cardId) {
-  //   return fetch(`${this._url}/cards/${cardId}`, {
-  //     method: 'DELETE',
-  //    headers: {
-  //     'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //     'Content-Type': 'application/json'
-  //   }
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
+  delMovie(movieId) {
+    return fetch(`${this._url}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: {
+        'authorization': `Bearer ${localStorage.getItem('jwt')}`,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => this._checkResponse(res))
+  };
 
   userRegistration({ name, email, password }) {
     return fetch(`${this._url}/signup`, {
@@ -133,18 +94,6 @@ class MainApi {
     })
       .then((res) => this._checkResponse(res))
   };
-
-  // checkJwt() {
-  //   return fetch(`${this._url}/users/me`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'authorization': `Bearer ${localStorage.getItem('jwt')}`,
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then((res) => this._checkResponse(res))
-  // };
-
 }
 
 const mainApi = new MainApi(configApi);

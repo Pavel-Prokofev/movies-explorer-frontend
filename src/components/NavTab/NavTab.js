@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './NavTab.css';
 
 import { linksArrForNavTab } from '../../utils/constants.js';

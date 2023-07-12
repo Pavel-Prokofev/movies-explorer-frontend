@@ -40,9 +40,18 @@
   opacity: 0.8;
 }
 
+.movies-searcher__error {
+  display: block;
+  color: #ee3465;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.2;
+  min-height: 14px;
+  padding-top: 2px;
+}
+
 .movies-searcher__toggle {
-  padding-top: 40px;
-  cursor: pointer;
+  padding-top: 24px;
   display: flex;
   justify-content: center;
   flex-direction: row-reverse;
@@ -50,6 +59,10 @@
   font-weight: 400;
   font-size: 11px;
   line-height: 1.64;
+}
+
+.movies-searcher__toggle_disabled {
+  opacity: 0.3;
 }
 
 .movies-searcher__toggle-checkbox {
@@ -60,6 +73,7 @@
 }
 
 .movies-searcher__toggle-switch {
+  cursor: pointer;
   display: inline-block;
   background: #343434;
   border-radius: 10px;
@@ -68,6 +82,10 @@
   position: relative;
   vertical-align: middle;
   transition: 0.5s;
+}
+
+.movies-searcher__toggle-switch_disabled {
+  cursor: default;
 }
 
 .movies-searcher__toggle-switch:before {
@@ -108,7 +126,7 @@
   }
 
   .movies-searcher__toggle {
-    padding-top: 29px;
+    padding-top: 13px;
     justify-content: right;
     gap: 16px;
     font-size: 13px;
@@ -125,7 +143,7 @@
 
 @media screen and (min-width: 1024px) {
   .movies-searcher__toggle {
-    padding-top: 32px;
+    padding-top: 16px;
     justify-content: left;
     flex-direction: row;
     gap: 14px;

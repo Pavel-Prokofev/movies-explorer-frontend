@@ -1,4 +1,3 @@
-
 const moviesApi = {
   getAllMovies: () => {
     return fetch(`https://api.nomoreparties.co/beatfilm-movies`, {
@@ -14,4 +13,5 @@ const moviesApi = {
       })
   }
 }
+
 export default moviesApi;

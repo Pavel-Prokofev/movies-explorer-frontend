@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './Portfolio.css';
 
 import { linksArrForPortfolio } from '../../utils/constants.js';

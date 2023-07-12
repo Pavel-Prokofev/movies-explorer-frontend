@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './MainContentBox.css';
 
 function MainContentBox(props) {

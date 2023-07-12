@@ -1,22 +1,28 @@
-import React from 'react';
-
 import './Movie.css';
 
 function Movie(props) {
 
-  const [likeStatus, setLikeStatus] = React.useState(false);
-  const [deliteStatus, setDeliteStatus] = React.useState(false);
+  const likeStatus = () => {
+    return props.likedMoviesArr.some(likedMovie => likedMovie.movieId === props.movie.movieId);
+  };
 
-  React.useEffect(() => {
-    setLikeStatus(props.movie.like);
-  }, []);
-
-  function likeToggle() {
-    setLikeStatus(!likeStatus);
-  }
-
-  function deliteMovie() {
-    setDeliteStatus(true)
+  const likeToggle = () => {
+    props.setPreloaderOn(true);
+    if (likeStatus() || props.display === 'saved-movies') {
+      if (props.display === 'saved-movies') {
+        props.handleDislikeMovie(props.movie._id);
+      } else if (props.display === 'movies') {
+        const actuaLikedlMovie = props.likedMoviesArr.find((likedMovie) => likedMovie.movieId === props.movie.movieId);
+        if (actuaLikedlMovie._id) {
+          props.handleDislikeMovie(actuaLikedlMovie._id);
+        }
+      } else {
+        console.log('При дислайке карточки что то пошло не так.');
+        props.setPreloaderOn(false);
+      }
+    } else {
+      props.handleLikeMovie(props.movie);
+    };
   }
 
   const time = (duration) => {
@@ -30,9 +36,9 @@ function Movie(props) {
   };
 
   return (
-    <li className={`movie ${deliteStatus && 'movie_simulation-of-deletion'}`}>
+    <li className="movie">
       <a href={props.movie.trailerLink} className="movie__link" target="_blank" rel="noreferrer">
-      <img className="movie__img" src={`https://api.nomoreparties.co${props.movie.image}`} alt={props.movie.nameRU} />
+        <img className="movie__img" src={props.movie.image} alt={props.movie.nameRU} />
       </a>
       <div className="movie__info-wrap">
         <div className="movie__info-box">
@@ -41,7 +47,7 @@ function Movie(props) {
             className={`
               movie__status-botton
               ${props.display === 'movies' ?
-                (likeStatus ?
+                (likeStatus() ?
                   'movie__status-botton_like-on' :
                   'movie__status-botton_like-off'
                 ) : (
@@ -49,12 +55,8 @@ function Movie(props) {
                   'movie__status-botton_delete-like'
                 )
               }
-          `}
-            onClick=
-            {() => {
-              props.display === 'movies' && likeToggle()
-              props.display === 'saved-movies' && deliteMovie()
-            }}
+            `}
+            onClick={likeToggle}
           ></button>
         </div>
         <span className="movie__duration">{time(props.movie.duration)}</span>

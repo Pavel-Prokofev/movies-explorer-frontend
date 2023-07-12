@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './Footer.css';
 
 import { linksArrForFooter } from '../../utils/constants.js';

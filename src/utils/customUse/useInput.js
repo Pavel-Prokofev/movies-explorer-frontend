@@ -9,13 +9,20 @@ const useInput = (initialValue, validations) => {
 
   const handleChangeValue = (evt) => {
     setValue(evt.target.value)
+    valid.handleErrorText();
   };
 
   const handleResetValue = (value) => {
     const resetValue = value ? value : '';
     setValue(resetValue);
     setIsDirty(false);
+    valid.handleErrorText();
   };
+
+  const handleChangeErrorText = (err) => {
+    valid.handleErrorText(err);
+    onInput();
+  }
 
   const onInput = () => {
     setIsDirty(true);
@@ -25,6 +32,7 @@ const useInput = (initialValue, validations) => {
     value,
     handleChangeValue,
     handleResetValue,
+    handleChangeErrorText,
     onInput,
     isDirty,
     ...valid
