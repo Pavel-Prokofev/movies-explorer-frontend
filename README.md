@@ -9,6 +9,10 @@ IP  51.250.70.254
 
 https://moviesearcher.kirga.nomoredomains.rocks
 
+## Ссылка на Pull request
+
+https://github.com/Pavel-Prokofev/movies-explorer-frontend/pull/2
+
 ## __Технологии использованные в проекте:__
 
 * HTML
