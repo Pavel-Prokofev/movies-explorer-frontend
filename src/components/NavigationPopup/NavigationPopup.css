@@ -22,7 +22,7 @@
 .navigation-popup__content-box {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   max-width: 520px;
   background-color: #202020;
   width: 0;

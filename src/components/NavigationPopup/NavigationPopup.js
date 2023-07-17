@@ -7,7 +7,7 @@ function NavigationPopup(props) {
   React.useEffect(() => {
     if (props.navigationPopupIsOpen) {
       document.addEventListener('click', props.handleCloseEvent);
-      document.addEventListener('keydown', props.onClose);
+      document.addEventListener('keydown', props.handleCloseEvent);
     };
     return () => {
       document.removeEventListener('click', props.handleCloseEvent);

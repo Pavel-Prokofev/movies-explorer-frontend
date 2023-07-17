@@ -1,5 +1,4 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import './Header.css';
 
@@ -9,11 +8,12 @@ import NavLinkBox from '../NavLinkBox/NavLinkBox.js'
 
 function Header(props) {
 
+  const location = useLocation();
+
   return (
     <>
-
-      {(props.display !== '/signup' && props.display !== '/signin') &&
-        <header className={`header ${props.display === '/' && 'header_background-main'}`}>
+      {
+        <header className={`header ${location.pathname === '/' && 'header_background-main'}`}>
           <nav className="header__nav">
             <Logo />
             {!props.loggedIn ?
@@ -46,11 +46,8 @@ function Header(props) {
           </nav>
         </header>
       }
-
     </>
   );
 };
 
 export default Header;
-
-// 

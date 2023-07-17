@@ -1,5 +1,3 @@
-import React from 'react';
-
 import './AboutMe.css';
 
 import MainContentBox from '../MainContentBox/MainContentBox.js';

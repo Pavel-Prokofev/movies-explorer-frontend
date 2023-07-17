@@ -1,44 +1,32 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import './Sign.css';
-
 
 import FormsBox from '../FormsBox/FormsBox.js'
 import FormInput from '../FormInput/FormInput.js'
 
-function Profile(props) {
-
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+function Sign(props) {
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const hendleSubmit = (evt) => {
-    evt.preventDefault();
-    if (props.display === 'signup') {
-      navigate(props.switchToWhenSubmit, { replace: true });
-    } else if (props.display === 'signin') {
-      props.handleLoggedIn();
-      navigate(props.switchToWhenSubmit, { replace: true });
+  React.useEffect(() => {
+    if (location.pathname === '/signin' || location.pathname === '/signup') {
+      location.pathname === '/signup' && props.name.handleResetValue('');
+      props.email.handleResetValue('');
+      props.password.handleResetValue('');
+      props.handleSubmitButtonErrorText(props.getUserInfoErrorText ? props.getUserInfoErrorText : '');
     }
-  };
+  }, [location]);
 
-  const handleChangeName = (evt) => {
-    setName(evt.target.value);
-  };
-
-  const handleChangeEmail = (evt) => {
-    setEmail(evt.target.value);
-  };
-
-  const handleChangePassword = (evt) => {
-    setPassword(evt.target.value);
-  };
+  const handleGetUserInfoErrorText = () => {
+    props.handleGetUserInfoErrorText && props.handleGetUserInfoErrorText();
+  }
 
   const handleSwitchTo = () => {
     navigate(props.switchTo, { replace: true });
+    handleGetUserInfoErrorText();
   }
 
   return (
@@ -49,29 +37,30 @@ function Profile(props) {
         submitButtonTag={props.submitButtonTag}
         linkButtonSignature={props.linkButtonSignature}
         linkButtonTag={props.linkButtonTag}
-        hendleSubmit={hendleSubmit}
+        handleSubmit={props.handleSubmit}
         handleSwitchTo={handleSwitchTo}
+        formIsValid={props.formIsValid}
+        submitButtonErrorText={props.submitButtonErrorText}
+        handleSubmitButtonErrorText={props.handleSubmitButtonErrorText}
+        handleGetUserInfoErrorText={handleGetUserInfoErrorText}
       >
         <fieldset className={`${props.display}`}>
-          {props.display === 'signup' && <FormInput
-            display={props.display}
-            label='Имя'
-            name='username'
-            type='text'
-            placeholder='Введите имя'
-            required={true}
-            value={name}
-            handleChangeValue={handleChangeName}
-          />}
+          {props.display === 'signup' &&
+            <FormInput
+              display={props.display}
+              label='Имя'
+              name='username'
+              type='text'
+              placeholder='Введите имя'
+              input={props.name}
+            />}
           <FormInput
             display={props.display}
             label='E-mail'
             name='email'
             type='email'
             placeholder='Введите E-mail'
-            required={true}
-            value={email}
-            handleChangeValue={handleChangeEmail}
+            input={props.email}
           />
           <FormInput
             display={props.display}
@@ -79,9 +68,7 @@ function Profile(props) {
             name='password'
             type='password'
             placeholder='Введите пароль'
-            required={true}
-            value={password}
-            handleChangeValue={handleChangePassword}
+            input={props.password}
           />
         </fieldset>
       </FormsBox>
@@ -89,4 +76,4 @@ function Profile(props) {
   );
 };
 
-export default Profile;
+export default Sign;

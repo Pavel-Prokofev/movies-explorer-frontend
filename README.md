@@ -1,7 +1,17 @@
 # movies-explorer-frontend
 
 ***
-_Реализация компоненты бэкенда, дипломного проеката moviesearcher, в рамках учебного процесса на Яндекс Практикум._
+_Реализация компоненты фронтенда, дипломного проеката moviesearcher, в рамках учебного процесса на Яндекс Практикум._
+
+## Ссылка для обращения к фронтенд части проекта
+
+IP  51.250.70.254
+
+https://moviesearcher.kirga.nomoredomains.rocks
+
+## Ссылка на Pull request
+
+https://github.com/Pavel-Prokofev/movies-explorer-frontend/pull/2
 
 ## __Технологии использованные в проекте:__
 
