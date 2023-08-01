@@ -84,9 +84,19 @@ export const linksArrForPortfolio = [
   },
   {
     id: 3,
-    href: 'https://github.com/Pavel-Prokofev/express-mesto-gha',
+    href: 'https://github.com/Pavel-Prokofev/react-mesto-api-full-gha',
     title: 'Одностраничное приложение'
-  }
+  },
+  {
+    id: 4,
+    href: 'https://github.com/Pavel-Prokofev/movies-explorer-api',
+    title: 'Backend данной дипломной работы'
+  },
+  {
+    id: 5,
+    href: 'https://github.com/Pavel-Prokofev/movies-explorer-frontend',
+    title: 'Frontend данной дипломной работы'
+  },
 ];
 
 export const linksArrForFooter = [
